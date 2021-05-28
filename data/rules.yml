@@ -1,0 +1,54 @@
+version: "2.0"
+
+rules:
+
+- rule: Say goodbye anytime the user says goodbye
+  steps:
+  - intent: goodbye
+  - action: utter_goodbye
+
+- rule: Say 'I am a bot' anytime the user challenges
+  steps:
+  - intent: bot_challenge
+  - action: utter_iamabot
+
+- rule: out-of-scope
+  steps:
+  - intent: out_of_scope
+  - action: utter_out_of_scope
+
+- rule: Ask the user to rephrase whenever they send a message with low NLU confidence
+  steps:
+  - intent: nlu_fallback
+  - action: utter_out_of_scope
+  - action: utter_anything_else
+
+- rule: Ask the user to rephrase in case of low NLU confidence
+  steps:
+  - intent: nlu_fallback
+  - action: utter_out_of_scope
+  - action: utter_anything_else
+
+- rule: Activate form
+  steps:
+  - action: utter_pre_info_happy
+  - intent: affirm
+  - action: cogent_form
+  - active_loop: cogent_form
+
+- rule: Submit form
+  condition:
+  # Condition that form is active.
+  - active_loop: cogent_form
+  steps:
+  # Form is deactivated
+  - action: cogent_form
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  # The actions we want to run when the form is submitted.
+  - action: utter_submit
+  - action: utter_loc
+  - action: utter_anything_else
+
+
