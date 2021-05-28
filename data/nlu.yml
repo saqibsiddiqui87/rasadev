@@ -18,6 +18,7 @@ nlu:
     - hello thr
     - whats up
     - hola
+    - howdy
 - intent: goodbye
   examples: |
     - cu
@@ -168,7 +169,6 @@ nlu:
     - I want to go to [Noida](location)
     - I want [noida](location)
     - I am in [Noida](location)
-    - [Noida](location)
     - I'm searching for [Bangalore](location)} offices
     - Need [bangalore](location) office
     - Need [bangalore](location) location
@@ -240,5 +240,4 @@ nlu:
     - I was [TL](designation)}
     - [TL](designation)
     - [Team Leader](designation)
-    - [Agent](designation)
     - [Agent](designation)
