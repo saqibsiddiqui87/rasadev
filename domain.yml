@@ -1,0 +1,153 @@
+version: '2.0'
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true
+intents:
+- name:
+    use_entities:
+    - name
+- greet
+- affirm
+- deny
+- small_talk_good
+- number:
+    use_entities:
+    - number
+- designation:
+    use_entities:
+    - designation
+- location:
+    use_entities:
+    - location
+- nlu_fallback
+- job
+- out_of_scope
+- stop
+- mood_great
+- mood_unhappy
+- bot_challenge
+- goodbye
+- small_talk_sad
+entities:
+- designation
+- location
+- name
+- number
+slots:
+  name:
+    type: text
+    influence_conversation: true
+  number:
+    type: text
+    influence_conversation: true
+  designation:
+    type: categorical
+    influence_conversation: false
+    values:
+    - agent
+    - tl
+  location:
+    type: categorical
+    influence_conversation: false
+    values:
+    - Noida
+    - Bangalore
+    - Mangalore
+responses:
+  utter_greet:
+  - text: Hi, I am from Cogent, here to help you, how are we doing today?
+  utter_did_that_help:
+  - text: Did that help you?
+  utter_happy:
+  - text: Great, carry on!
+  utter_goodbye:
+  - text: Have a nice day, hoping this was helpful, goodbye!
+  utter_iamabot:
+  - text: I am a bot, or am I?
+  utter_out_of_scope:
+  - text: Well, unfortunately that's something I didn't quite understand.
+  utter_anything_else:
+  - text: Alright {name}, do you need help with anything else?
+  utter_please_specify:
+  - text: Ok, please specify your requirements.
+  utter_loc:
+    - condition:
+        - type: slot
+          name: designation
+          value: TL
+        - type: slot
+          name: location
+          value: Noida
+      text: Hi {name}, thanks for enquiring, our Noida offices are at C121, Sector 63, Noida.
+    - condition:
+        - type: slot
+          name: designation
+          value: TL
+        - type: slot
+          name: location
+          value: Mangalore
+      text: Hi {name}, thanks for enquiring, our Mangalore offices are at Location 2, Mangalore.
+    - condition:
+        - type: slot
+          name: designation
+          value: TL
+        - type: slot
+          name: location
+          value: Bangalore
+      text: Hi {name}, thanks for enquiring, our Bangalore offices are at Location 1, Bangalore.
+    - condition:
+        - type: slot
+          name: designation
+          value: Agent
+      text: Hi {name}, thanks for enquiring, please email us at email@email.com for further enquiries.
+  utter_job_reply:
+  - text: Hi, that's exactly why I'm here, to help with your job search, please specify a location and I would gladly help you in finding the location for the office in that city.
+  utter_ask_name:
+  - text: Please enter your name
+  utter_ask_number:
+  - text: Please enter your phone number without country code
+  utter_ask_designation:
+  - text: Please enter required designation
+  utter_ask_location:
+  - text: Alright {name}, please provide the name of the city for your interview.
+  utter_pre_info_happy:
+  - text: That's great to hear, now to assist you I would like to take some information ok?
+  utter_pre_info_sad:
+  - text: Don't worry, it might improve after the interview, and on that note, mind providing me with some information so that I can help you?
+  utter_submit:
+  - text: Thankyou for providing the information.
+actions:
+- action_submit
+- utter_anything_else
+- utter_ask_location
+- utter_ask_location_happy
+- utter_ask_number
+- utter_bangalore_loc
+- utter_did_that_help
+- utter_goodbye
+- utter_greet
+- utter_happy
+- utter_job_reply
+- utter_location
+- utter_mangalore_loc
+- utter_noida_loc
+- utter_out_of_scope
+- utter_pre_info_happy
+- utter_slot_values
+- utter_small_talk
+- utter_submit
+forms:
+  cogent_form:
+    required_slots:
+      name:
+      - type: from_entity
+        entity: name
+      number:
+      - type: from_entity
+        entity: number
+      designation:
+      - type: from_entity
+        entity: designation
+      location:
+      - type: from_entity
+        entity: location
