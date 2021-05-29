@@ -4,6 +4,22 @@ from rasa_sdk import Action, Tracker
 from rasa_sdk.events import SlotSet, EventType
 from rasa_sdk.executor import CollectingDispatcher
 import webbrowser
+import csv
+
+class ExportingInfo(Action):
+    def name(self) -> Text:
+        return "exporting_csv"
+
+    def run(
+        self,
+        dispatcher,
+        tracker: Tracker,
+        domain: "Dict",
+    ) -> List[Dict[Text, Any]]:
+        with open("FromRasa.csv", 'a') as file:
+            writer = csv.writer(file)
+            writer.writerow([tracker.get_slot("name"), tracker.get_slot("number"), tracker.get_slot("designation"), tracker.get_slot("location")])
+                
 
 class ValidateCogentForm(Action):
     def name(self) -> Text:
@@ -30,7 +46,7 @@ class ActionSubmit(Action):
         self,
         dispatcher,
         tracker: Tracker,
-        domain: "DomainDict",
+        domain: "Dict",
     ) -> List[Dict[Text, Any]]:
         dispatcher.utter_message(template="utter_details_thanks",
                                  Name=tracker.get_slot("name"),
