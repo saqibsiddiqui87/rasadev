@@ -146,6 +146,7 @@ nlu:
     - Doin good
     - DOing well
     - good
+    - I am fine
 - intent: small_talk_sad
   examples: |
     - I'm not doing so good
@@ -168,7 +169,6 @@ nlu:
     - I want to go to [Noida](location)
     - I want [noida](location)
     - I am in [Noida](location)
-    - [Noida](location)
     - I'm searching for [Bangalore](location)} offices
     - Need [bangalore](location) office
     - Need [bangalore](location) location
@@ -231,6 +231,7 @@ nlu:
     - [9213505335](number)
     - [6500313912](number)
     - [9246174253](number)
+    - [9540041888](number)
 - intent: designation
   examples: |
     - I am [agent](designation)
@@ -240,5 +241,4 @@ nlu:
     - I was [TL](designation)}
     - [TL](designation)
     - [Team Leader](designation)
-    - [Agent](designation)
     - [Agent](designation)
