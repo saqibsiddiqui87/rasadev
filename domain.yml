@@ -1,6 +1,4 @@
 version: '2.0'
-config:
-  store_entities_as_slots: true
 session_config:
   session_expiration_time: 60
   carry_over_slots_to_new_session: true
@@ -8,14 +6,10 @@ intents:
 - name:
     use_entities:
     - name
-- greet:
-    use_entities: true
-- affirm:
-    use_entities: true
-- deny:
-    use_entities: true
-- small_talk_good:
-    use_entities: true
+- greet
+- affirm
+- deny
+- small_talk_good
 - number:
     use_entities:
     - number
@@ -25,24 +19,15 @@ intents:
 - location:
     use_entities:
     - location
-- nlu_fallback:
-    use_entities: true
-- job:
-    use_entities: true
-- out_of_scope:
-    use_entities: true
-- stop:
-    use_entities: true
-- mood_great:
-    use_entities: true
-- mood_unhappy:
-    use_entities: true
-- bot_challenge:
-    use_entities: true
-- goodbye:
-    use_entities: true
-- small_talk_sad:
-    use_entities: true
+- nlu_fallback
+- job
+- out_of_scope
+- stop
+- mood_great
+- mood_unhappy
+- bot_challenge
+- goodbye
+- small_talk_sad
 entities:
 - designation
 - location
@@ -50,84 +35,89 @@ entities:
 - number
 slots:
   name:
-    type: rasa.shared.core.slots.TextSlot
-    initial_value: null
-    auto_fill: true
+    type: text
     influence_conversation: true
   number:
-    type: rasa.shared.core.slots.TextSlot
-    initial_value: null
-    auto_fill: true
+    type: text
     influence_conversation: true
   designation:
-    type: rasa.shared.core.slots.CategoricalSlot
-    initial_value: null
-    auto_fill: true
+    type: categorical
     influence_conversation: false
     values:
     - agent
     - tl
   location:
-    type: rasa.shared.core.slots.CategoricalSlot
-    initial_value: null
-    auto_fill: true
+    type: categorical
     influence_conversation: false
     values:
-    - noida
-    - bangalore
-    - mangalore
-  requested_slot:
-    type: rasa.shared.core.slots.UnfeaturizedSlot
-    initial_value: null
-    auto_fill: true
-    influence_conversation: false
+    - Noida
+    - Bangalore
+    - Mangalore
 responses:
   utter_greet:
   - text: Hi, I am from Cogent, here to help you, how are we doing today?
-  utter_did_that_help:
-  - text: Did that help you?
   utter_happy:
   - text: Great, carry on!
   utter_goodbye:
   - text: Have a nice day, hoping this was helpful, goodbye!
   utter_iamabot:
-  - text: I am a bot, or am I?
+  - text: I am a bot, but I try to be human.
   utter_out_of_scope:
-  - text: Well, unfortunately that's something I didn't quite understand.
+  - text: Well, unfortunately that's something I didn't quite understand, please rephrase the question.
   utter_anything_else:
   - text: Alright {name}, do you need help with anything else?
   utter_please_specify:
   - text: Ok, please specify your requirements.
   utter_loc:
-  - condition:
-    - name: designation
-      type: slot
-      value: TL
-    - name: location
-      type: slot
-      value: Noida
-    text: Hi {name}, thanks for enquiring, our Noida offices are at C121, Sector 63, Noida.
-  - condition:
-    - name: designation
-      type: slot
-      value: TL
-    - name: location
-      type: slot
-      value: Mangalore
-    text: Hi {name}, thanks for enquiring, our Mangalore offices are at Location 2, Mangalore.
-  - condition:
-    - name: designation
-      type: slot
-      value: TL
-    - name: location
-      type: slot
-      value: Bangalore
-    text: Hi {name}, thanks for enquiring, our Bangalore offices are at Location 1, Bangalore.
-  - condition:
-    - name: designation
-      type: slot
-      value: Agent
-    text: Hi {name}, thanks for enquiring, please email us at email@email.com for further enquiries.
+    - condition:
+        - type: slot
+          name: designation
+          value: TL
+        - type: slot
+          name: location
+          value: Noida
+      text: Hi {name}, thanks for enquiring, our Noida offices are at C121, Sector 63, Noida.
+    - condition:
+        - type: slot
+          name: designation
+          value: TL
+        - type: slot
+          name: location
+          value: Mangalore
+      text: Hi {name}, thanks for enquiring, our Mangalore offices are at Location 2, Mangalore.
+    - condition:
+        - type: slot
+          name: designation
+          value: TL
+        - type: slot
+          name: location
+          value: Bangalore
+      text: Hi {name}, thanks for enquiring, our Bangalore offices are at Location 1, Bangalore.
+    - condition:
+        - type: slot
+          name: designation
+          value: Agent
+        - type: slot
+          name: location
+          value: Noida
+      text: Hi {name}, thanks for enquiring, our Noida offices are at C121, Sector 63, Noida.
+    - condition:
+        - type: slot
+          name: designation
+          value: Agent
+        - type: slot
+          name: location
+          value: Mangalore
+      text: Hi {name}, thanks for enquiring, our Mangalore offices are at Location 2, Mangalore.
+    - condition:
+        - type: slot
+          name: designation
+          value: Agent
+        - type: slot
+          name: location
+          value: Bangalore
+      text: Hi {name}, thanks for enquiring, our Bangalore offices are at Location 1, Bangalore.
+    - text: Hi {name}, please send your CV/Resume at email@gmail.com, we will get in touch with you shortly.
   utter_job_reply:
   - text: Hi, that's exactly why I'm here, to help with your job search, please specify a location and I would gladly help you in finding the location for the office in that city.
   utter_ask_name:
@@ -144,6 +134,8 @@ responses:
   - text: Don't worry, it might improve after the interview, and on that note, mind providing me with some information so that I can help you?
   utter_submit:
   - text: Thankyou for providing the information.
+  utter_request_info:
+  - text: But we need this useful information to provide you with the information you need, please enter information as requested.
 actions:
 - action_submit
 - utter_anything_else
@@ -164,19 +156,19 @@ actions:
 - utter_slot_values
 - utter_small_talk
 - utter_submit
+- exporting_csv
 forms:
   cogent_form:
     required_slots:
-      designation:
-      - entity: designation
-        type: from_entity
-      location:
-      - entity: location
-        type: from_entity
       name:
-      - entity: name
-        type: from_entity
+      - type: from_entity
+        entity: name
       number:
-      - entity: number
-        type: from_entity
-e2e_actions: []
+      - type: from_entity
+        entity: number
+      designation:
+      - type: from_entity
+        entity: designation
+      location:
+      - type: from_entity
+        entity: location

@@ -21,13 +21,6 @@ rules:
   steps:
   - intent: nlu_fallback
   - action: utter_out_of_scope
-  - action: utter_anything_else
-
-- rule: Ask the user to rephrase in case of low NLU confidence
-  steps:
-  - intent: nlu_fallback
-  - action: utter_out_of_scope
-  - action: utter_anything_else
 
 - rule: Activate form
   steps:
@@ -48,6 +41,7 @@ rules:
     - requested_slot: null
   # The actions we want to run when the form is submitted.
   - action: utter_submit
+  - action: exporting_csv
   - action: utter_loc
   - action: utter_anything_else
 

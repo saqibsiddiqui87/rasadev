@@ -4,35 +4,53 @@ stories:
 
 
 
-- story: interactive_story_1
-  steps:
-  - intent: greet
-  - action: utter_greet
-  - intent: small_talk_good
-  - action: utter_pre_info_happy
 
-- story: ending_convo_noida
-  steps:
-  - action: utter_noida_loc
-  - action: utter_anything_else
-  - intent: deny
-  - action: utter_goodbye
-
-- story: interactive_story_1
+- story: initial deny
   steps:
   - intent: greet
   - action: utter_greet
   - intent: small_talk_good
   - action: utter_pre_info_happy
   - intent: deny
-  - action: utter_goodbye
-
-- story: uttering submit
-  steps: 
+  - action: utter_request_info
+  - intent: affirm
+  - action: cogent_form
+  - active_loop: cogent_form
+  - slot_was_set:
+    - requested_slot: name
+  - slot_was_set:
+    - name: Apoorv
+  - slot_was_set:
+    - name: Apoorv
+  - slot_was_set:
+    - requested_slot: number
+  - slot_was_set:
+    - number: '9246174253'
+  - slot_was_set:
+    - number: '9246174253'
+  - slot_was_set:
+    - requested_slot: designation
+  - slot_was_set:
+    - designation: Agent
+  - slot_was_set:
+    - designation: Agent
+  - slot_was_set:
+    - requested_slot: location
+  - slot_was_set:
+    - location: Noida
+  - slot_was_set:
+    - location: Noida
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
   - action: utter_submit
+  - action: exporting_csv
+  - action: utter_loc
   - action: utter_anything_else
+  - intent: deny
+  - action: utter_goodbye
 
-- story: interactive_story_1
+- story: initial affirm
   steps:
   - intent: greet
   - action: utter_greet
@@ -69,6 +87,7 @@ stories:
     - requested_slot: null
   - active_loop: null
   - action: utter_submit
+  - action: exporting_csv
   - action: utter_loc
   - action: utter_anything_else
   - intent: deny
