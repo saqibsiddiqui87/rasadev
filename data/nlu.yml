@@ -217,6 +217,7 @@ nlu:
     - (Shikha)[name]
     - (Arpita)[name]
     - (Puneet)[name]
+    - Saqib
 - intent: number
   examples: |
     - My number is [9510055076](number)
