@@ -1,0 +1,480 @@
+version: '2.0'
+config:
+  store_entities_as_slots: true
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true
+intents:
+- name:
+    use_entities:
+    - name
+- number:
+    use_entities:
+    - number
+- deny:
+    use_entities: true
+- otp:
+    use_entities:
+    - otp
+- employee_id:
+    use_entities:
+    - employee_id
+- ESIC:
+    use_entities: true
+- greet:
+    use_entities: true
+- job:
+    use_entities: true
+- PF:
+    use_entities: true
+- designation:
+    use_entities:
+    - designation
+- sales:
+    use_entities: true
+- company:
+    use_entities:
+    - company
+- time:
+    use_entities:
+    - time
+- location:
+    use_entities:
+    - location
+- day:
+    use_entities:
+    - day
+- affirm:
+    use_entities: true
+- out_of_scope:
+    use_entities: true
+- small_talk_good:
+    use_entities: true
+- nlu_fallback:
+    use_entities: true
+- stop:
+    use_entities: true
+- mood_great:
+    use_entities: true
+- mood_unhappy:
+    use_entities: true
+- bot_challenge:
+    use_entities: true
+- goodbye:
+    use_entities: true
+- small_talk_sad:
+    use_entities: true
+- otp_not_received:
+    use_entities: true
+- delay_response_challenge:
+    use_entities: true
+- cogent_challenge:
+    use_entities: true
+- time_challenge_Job:
+    use_entities: true
+- info_gathering_challenge:
+    use_entities: true
+- contact_cogent:
+    use_entities: true
+- info_not_yet_defined:
+    use_entities: true
+entities:
+- company
+- day
+- designation
+- employee_id
+- location
+- name
+- number
+- otp
+- time
+slots:
+  name:
+    type: rasa.shared.core.slots.TextSlot
+    initial_value: null
+    auto_fill: true
+    influence_conversation: true
+  number:
+    type: rasa.shared.core.slots.TextSlot
+    initial_value: null
+    auto_fill: true
+    influence_conversation: true
+  designation:
+    type: rasa.shared.core.slots.CategoricalSlot
+    initial_value: null
+    auto_fill: false
+    influence_conversation: false
+    values:
+    - agent
+    - team leader
+  location:
+    type: rasa.shared.core.slots.CategoricalSlot
+    initial_value: null
+    auto_fill: false
+    influence_conversation: false
+    values:
+    - noida
+    - bangalore
+    - mangalore
+    - meerut
+    - vadodara
+    - bareilly
+  employee_id:
+    type: rasa.shared.core.slots.TextSlot
+    initial_value: null
+    auto_fill: false
+    influence_conversation: true
+  otp:
+    type: rasa.shared.core.slots.TextSlot
+    initial_value: null
+    auto_fill: true
+    influence_conversation: true
+  company:
+    type: rasa.shared.core.slots.TextSlot
+    initial_value: null
+    auto_fill: true
+    influence_conversation: true
+  time:
+    type: rasa.shared.core.slots.TextSlot
+    initial_value: null
+    auto_fill: true
+    influence_conversation: true
+  day:
+    type: rasa.shared.core.slots.TextSlot
+    initial_value: null
+    auto_fill: true
+    influence_conversation: true
+  requested_slot:
+    type: rasa.shared.core.slots.UnfeaturizedSlot
+    initial_value: null
+    auto_fill: true
+    influence_conversation: false
+responses:
+  utter_greet:
+  - buttons:
+    - payload: Job
+      title: Job openings
+    - payload: ESIC
+      title: ESIC assistance
+    - payload: PF
+      title: PF Assistance
+    - payload: Sales
+      title: Sales enquiry
+    text: Thank you for providing the information {name}. As you know I'm here to help you. I can help you with the following right now.
+  utter_happy:
+  - text: Great, carry on!
+  utter_hello:
+  - text: Hi! I am a demo bot and I'm here to help you.
+  utter_goodbye:
+  - text: Have a nice day, hoping this was helpful, goodbye!
+  utter_iamabot:
+  - text: I am a bot, but I try to be human.
+  utter_out_of_scope:
+  - text: Well, unfortunately that's something I didn't quite understand, please rephrase it.
+  utter_anything_else:
+  - text: Alright {name}, do you need help with anything else, if yes please specify.
+  utter_please_specify:
+  - text: Ok, please specify your requirements.
+  utter_loc:
+  - condition:
+    - name: designation
+      type: slot
+      value: Agent
+    - name: location
+      type: slot
+      value: Noida
+    text: Hi {name}, thanks for enquiring, our Noida offices are at [C 121, Sector 63, Noida, Uttar Pradesh](https://goo.gl/maps/wmCq7B2SZgSLA4AZA). You can also find us at [C 100, Sector 63, Noida, Uttar Pradesh](https://goo.gl/maps/ZWgEg81zQxrQPBHt6).
+  - condition:
+    - name: designation
+      type: slot
+      value: Agent
+    - name: location
+      type: slot
+      value: Mangalore
+    text: Hi {name}, thanks for enquiring, our Mangalore offices are at [1st & 2nd Floor of A & B Wing, 3rd Floor of B Wing, Raj Towers, 14th Court ward, Balmatta Road, Mangalore — 575001](https://goo.gl/maps/Wo7boNwo2iuy1cPj9) or at [Fortune Commercial Complex, Mangalore 575001](https://goo.gl/maps/Fuc3XbxWVYTF68U96)
+  - condition:
+    - name: designation
+      type: slot
+      value: Agent
+    - name: location
+      type: slot
+      value: Bangalore
+    text: Hi {name}, thanks for enquiring, our Bangalore offices are at [Ground Floor, Gopalan Enterprises, Millennium Tower No 133, ITPL Main Rd, Kundalahalli, Bangalore, KARNATAKA-560037 or at Vasant Business Park](https://g.page/Bposervices?share), [44/2A, 2nd & 3rd floor, Bellari Road, NH -7, Hebbal, Bangalore,KARNATAKA-560092](https://goo.gl/maps/DQERmYgw2toBdLbz5)
+  - condition:
+    - name: designation
+      type: slot
+      value: Agent
+    - name: location
+      type: slot
+      value: Meerut
+    text: Hi {name}, thanks for enquiring, our Meerut offices are at [Apex Towers, 1/1 Mangal Pandey Nagar, Meerut, U.P](https://goo.gl/maps/LbJKHVaHuSWu1oXc6).
+  - condition:
+    - name: designation
+      type: slot
+      value: Agent
+    - name: location
+      type: slot
+      value: Bareilly
+    text: Hi {name}, thanks for enquiring, our Bareilly offices are at [3rd Floor, JJ Mall, 85 D Civil Lines, Bareilly, Uttar Pradesh-243001](https://goo.gl/maps/qgAWodoTjVtiu4L18).
+  - condition:
+    - name: designation
+      type: slot
+      value: Agent
+    - name: location
+      type: slot
+      value: Vadodara
+    text: Hi {name}, thanks for enquiring, our Vadodara offices are at [Zenith Tins Compound, Channi, Vadodara, Gujarat](https://goo.gl/maps/9CowUsgpAM6Z3dXbA).
+  - condition:
+    - name: designation
+      type: slot
+      value: Team Leader
+    - name: location
+      type: slot
+      value: Noida
+    text: Hi {name}, thanks for enquiring, our Noida offices are at [C 121, Sector 63, Noida, Uttar Pradesh](https://goo.gl/maps/wmCq7B2SZgSLA4AZA). you can also find us at [C 100, Sector 63, Noida, Uttar Pradesh](https://goo.gl/maps/ZWgEg81zQxrQPBHt6)
+  - condition:
+    - name: designation
+      type: slot
+      value: Team Leader
+    - name: location
+      type: slot
+      value: Mangalore
+    text: Hi {name}, thanks for enquiring, our Mangalore offices are at [1st & 2nd Floor of A & B Wing, 3rd Floor of B Wing, Raj Towers, 14th Court ward, Balmatta Road, Mangalore — 575001](https://goo.gl/maps/Wo7boNwo2iuy1cPj9) or at [Fortune Commercial Complex, Mangalore 575001](https://goo.gl/maps/Fuc3XbxWVYTF68U96)
+  - condition:
+    - name: designation
+      type: slot
+      value: Team Leader
+    - name: location
+      type: slot
+      value: Bangalore
+    text: Hi {name}, thanks for enquiring, our Bangalore offices are at [Ground Floor, Gopalan Enterprises, Millennium Tower No 133, ITPL Main Rd, Kundalahalli, Bangalore, KARNATAKA-560037 or at Vasant Business Park](https://g.page/Bposervices?share), [44/2A, 2nd & 3rd floor, Bellari Road, NH -7, Hebbal, Bangalore,KARNATAKA-560092](https://goo.gl/maps/DQERmYgw2toBdLbz5)
+  - condition:
+    - name: designation
+      type: slot
+      value: Team Leader
+    - name: location
+      type: slot
+      value: Meerut
+    text: Hi {name}, thanks for enquiring, our Meerut offices are at [Apex Towers, 1/1 Mangal Pandey Nagar, Meerut, U.P](https://goo.gl/maps/LbJKHVaHuSWu1oXc6).
+  - condition:
+    - name: designation
+      type: slot
+      value: Team Leader
+    - name: location
+      type: slot
+      value: Bareilly
+    text: Hi {name}, thanks for enquiring, our Bareilly offices are at [3rd Floor, JJ Mall, 85 D Civil Lines, Bareilly, Uttar Pradesh-243001](https://goo.gl/maps/qgAWodoTjVtiu4L18).
+  - condition:
+    - name: designation
+      type: slot
+      value: Team Leader
+    - name: location
+      type: slot
+      value: Vadodara
+    text: Hi {name}, thanks for enquiring, our Vadodara offices are at [Zenith Tins Compound, Channi, Vadodara, Gujarat](https://goo.gl/maps/9CowUsgpAM6Z3dXbA)t.
+  - text: Hi {name}, please send your CV/Resume at email@gmail.com, we will get in touch with you shortly.
+  utter_job_reply:
+  - text: Hi, that's exactly why I'm here, to help with your job search, please specify a location and I would gladly help you in finding the location for the office in that city.
+  utter_ask_name:
+  - text: Can I have your good name please?
+  utter_ask_number:
+  - text: Hi {name}, nice to meet you, can I have your phone number now please?
+  utter_ask_company:
+  - text: Alright {name}, please state the company you belong to.
+  utter_ask_time:
+  - buttons:
+    - payload: 9:00 am - 11:00 am
+      title: 9:00 am - 11:00 am
+    - payload: 11:00 am - 1:00 pm
+      title: 11:00 am - 1:00 pm
+    - payload: 1:00 pm - 3:00 pm
+      title: 1:00 pm - 3:00 pm
+    - payload: 3:00 pm - 5:00 pm
+      title: 3:00 pm - 5:00 pm
+    - payload: 5:00 pm - 7:00 pm
+      title: 5:00 pm - 7:00 pm
+    text: Alright {name}, we would be glad to set up a meet with you, please specify the time slot that would suit you.
+  utter_submit_sales:
+  - text: Thanks for providing the information {name}, we will get back to you about this.
+  utter_ask_designation:
+  - buttons:
+    - payload: Team Leader
+      title: Team Leader
+    - payload: Agent
+      title: Agent
+    text: Alright {name}, please enter required designation, if designation isn't mentioned, please type respective designation.
+  utter_ask_location:
+  - buttons:
+    - payload: Noida
+      title: Noida
+    - payload: Bangalore
+      title: Bangalore
+    - payload: Mangalore
+      title: Mangalore
+    - payload: Vadodara
+      title: Vadodara
+    - payload: Meerut
+      title: Meerut
+    - payload: Bareilly
+      title: Bareilly
+    text: Alright {name}, please select the name of the city for your interview.
+  utter_ask_day:
+  - buttons:
+    - payload: Weekday
+      title: Weekday
+    - payload: Weekend
+      title: Weekend
+    text: Alright {name}, please specify if you would like to connect to us on a weekday or a weekend.
+  utter_ask_employee_id:
+  - text: Hi, first off, I would like your Cogent employee ID.
+  utter_pre_info:
+  - text: That's great to hear, now to assist you I would like to take some information, please provide with the apt information.
+  utter_submit:
+  - text: Ok {name} that's all I needed.
+  utter_ask_otp:
+  - text: Ok {name} please enter your 4 digit OTP.
+  utter_esic:
+  - text: Hi {name}, thanks for providing the info, we will get back to you with you ESIC information shortly.
+  utter_pf:
+  - text: Hi {name}, thanks for providing the info, we will get back to you with your PF information shortly.
+  utter_request_info:
+  - text: But we need this useful information to provide you with the information you need, please enter information as requested.
+  utter_initial_out_of_scope:
+  - text: Sorry that's not what I requested, please choose between PF info, ESIC info or Interview related information.
+  utter_thanks_otp:
+  - text: Thanks {name} for verifying your mobile number.
+  utter_wait_otp:
+  - text: Hi {name}, sometimes the servers tend to be slow, if you've entered the correct phone number, you must receive it within the next minute or so
+  utter_please_name:
+  - text: Well, to assist you I would need some information from you over the course of our conversation starting with your name, so please help me by providing me with your name.
+  utter_please_number:
+  - text: Hi {name}, we would keep your number in our records incase we need to connect with you in the future
+  utter_info_gathering:
+  - text: This is to enrich our data and if required connect with you at a later stage.
+  utter_delay_response:
+  - text: Sorry for the delay, I'm gathering the information you requested, in the meantime, did you know that Cogent was founded by three friend in 2004.
+  - text: Sorry for the delay, I'm gathering the information you requested, in the meantime, did you know that Cogent has presence in 7 cities in India
+  utter_cogent:
+  - text: Hi, Cogent is an Indian business process solutions provider facilitating enterprises to redefine their functions in the digital age. Since 2004, we continue to deliver industry-specific solutions and an approach that strengthens customer relations. We are the complete outsourcing partner for all day-to-day administrative and back-office undertakings.
+  utter_time_visit:
+  - text: |-
+      Hi, we are glad that you want to work with Cogent, our team is available 10:00 am - 5:00 pm, Monday through Saturday, you can contact us via email on email@cogenteservices.com or call us at 
+      +91-120-4832550.
+  utter_contact_cogent:
+  - text: Hi, you can write to us at email@cogenteservices.com or call us at +91-120-4832550
+  utter_ask_rephrase:
+  - text: I'm sorry, I didn't quite understand that. Could you rephrase?
+  utter_not_yet_defined:
+  - text: Hi, I'm still under development and unfortunately this feature has not yet been implemented, but not to worry, work is under progress and you will have this information via me in no time.
+actions:
+- action_submit
+- exporting_csv_esic
+- exporting_csv_interview
+- exporting_csv_pf
+- exporting_csv_sales
+- sendingEmailESIC
+- sendingEmailInteriew
+- sendingEmailPF
+- sendingEmailSales
+- sendingOTP
+- utter_anything_else
+- utter_ask_employee_id
+- utter_ask_location
+- utter_ask_location_happy
+- utter_ask_number
+- utter_bangalore_loc
+- utter_did_that_help
+- utter_esic
+- utter_goodbye
+- utter_greet
+- utter_happy
+- utter_initial_out_of_scope
+- utter_job_reply
+- utter_loc
+- utter_location
+- utter_mangalore_loc
+- utter_noida_loc
+- utter_out_of_scope
+- utter_pf
+- utter_pre_info
+- utter_pre_info_happy
+- utter_slot_values
+- utter_small_talk
+- utter_submit
+- verify_pf
+- verify_esic
+- utter_submit_sales
+- utter_thanks_otp
+- validate_cogent_form_otp
+- utter_wait_otp
+- validate_cogent_form_init
+- validate_cogent_form_esic
+- validate_cogent_form_pf
+forms:
+  cogent_form_init:
+    required_slots:
+      name:
+      - entity: name
+        type: from_entity
+      number:
+      - entity: number
+        type: from_entity
+  cogent_form_interview:
+    required_slots:
+      designation:
+      - entity: designation
+        type: from_entity
+      location:
+      - entity: location
+        type: from_entity
+      name:
+      - entity: name
+        type: from_entity
+  cogent_form_pf:
+    required_slots:
+      employee_id:
+      - entity: employee_id
+        type: from_entity
+      name:
+      - entity: name
+        type: from_entity
+      number:
+      - entity: number
+        type: from_entity
+      otp:
+      - entity: otp
+        type: from_entity
+  cogent_form_esic:
+    required_slots:
+      employee_id:
+      - entity: employee_id
+        type: from_entity
+      name:
+      - entity: name
+        type: from_entity
+      number:
+      - entity: number
+        type: from_entity
+      otp:
+      - entity: otp
+        type: from_entity
+  cogent_form_otp:
+    required_slots:
+      otp:
+      - entity: otp
+        type: from_entity
+  cogent_form_sales:
+    required_slots:
+      company:
+      - entity: company
+        type: from_entity
+      day:
+      - entity: day
+        type: from_entity
+      name:
+      - entity: name
+        type: from_entity
+      time:
+      - entity: time
+        type: from_entity
+e2e_actions: []
