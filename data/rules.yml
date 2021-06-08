@@ -1,0 +1,208 @@
+version: "2.0"
+rules:
+- rule: Say goodbye anytime the user says goodbye
+  steps:
+  - intent: goodbye
+  - action: action_restart
+- rule: Say 'I am a bot' anytime the user challenges
+  steps:
+  - intent: bot_challenge
+  - action: utter_iamabot
+- rule: Ask the user to rephrase whenever they send a message with low NLU confidence
+  steps:
+  - intent: nlu_fallback
+  - action: utter_out_of_scope
+- rule: Activate form Init
+  steps:
+  - intent: greet
+  - action: utter_hello
+  - action: cogent_form_init
+  - active_loop: cogent_form_init
+- rule: Submit form Init
+  condition:
+  - active_loop: cogent_form_init
+  steps:
+  - action: cogent_form_init
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - action: sendingOTP
+  - action: cogent_form_otp
+  - active_loop: cogent_form_otp
+- rule: Submit form OTP
+  condition:
+  - active_loop: cogent_form_otp
+  steps:
+  - action: cogent_form_otp
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - action: utter_thanks_otp
+  - action: utter_greet
+- rule: Activate form Interview
+  steps:
+  - intent: job
+  - action: utter_pre_info
+  - action: cogent_form_interview
+  - active_loop: cogent_form_interview
+- rule: Submit form Interview
+  condition:
+  - active_loop: cogent_form_interview
+  steps:
+  - action: cogent_form_interview
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - action: utter_submit
+  - action: exporting_csv_interview
+  - action: sendingEmailInteriew
+  - action: utter_loc
+  - action: utter_anything_else
+  wait_for_user_input: false
+- rule: Activate form PF
+  steps:
+  - intent: PF
+  - action: utter_pre_info
+  - action: cogent_form_pf
+  - active_loop: cogent_form_pf
+- rule: Submit form PF
+  condition:
+  - active_loop: cogent_form_pf
+  steps:
+  - action: cogent_form_pf
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - action: utter_submit
+  - action: exporting_csv_pf
+  - action: sendingEmailPF
+  - action: verify_pf
+  - action: utter_anything_else
+  wait_for_user_input: false
+- rule: Activate form ESIC
+  steps:
+  - intent: ESIC
+  - action: utter_pre_info
+  - action: cogent_form_esic
+  - active_loop: cogent_form_esic
+- rule: Submit form ESIC
+  condition:
+  - active_loop: cogent_form_esic
+  steps:
+  - action: cogent_form_esic
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - action: utter_submit
+  - action: exporting_csv_esic
+  - action: sendingEmailESIC
+  - action: verify_esic
+  - action: utter_anything_else
+  wait_for_user_input: false
+- rule: Activate form Sales
+  steps:
+  - intent: sales
+  - action: utter_pre_info
+  - action: cogent_form_sales
+  - active_loop: cogent_form_sales
+- rule: Submit form sales
+  condition:
+  - active_loop: cogent_form_sales
+  steps:
+  - action: cogent_form_sales
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - action: utter_submit
+  - action: exporting_csv_sales
+  - action: sendingEmailSales
+  - action: utter_submit_sales
+  - action: utter_anything_else
+  wait_for_user_input: false
+- rule: anything else affirm
+  steps:
+  - action: utter_anything_else
+  - intent: affirm
+  - action: action_restart
+  - action: utter_hello
+- rule: anything else deny
+  steps:
+  - action: utter_anything_else
+  - intent: deny
+  - action: utter_goodbye
+- rule: Info gathering out of scope
+  steps:
+  - intent: info_gathering_challenge
+  - action: utter_info_gathering
+- rule: Time to visit
+  steps:
+  - intent: time_challenge_Job
+  - action: utter_time_visit
+- rule: Delay
+  steps:
+  - intent: delay_response_challenge
+  - action: utter_delay_response
+- rule: Info not in rasa
+  steps:
+  - intent: info_not_yet_defined
+  - action: utter_not_yet_defined
+- rule: what is cogent?
+  steps:
+  - intent: cogent_challenge
+  - action: utter_cogent
+- rule: Init unhappy
+  condition:
+  - active_loop: cogent_form_init
+  steps:
+  - intent: info_gathering_challenge
+  - action: utter_info_gathering
+  - action: cogent_form_init
+  - active_loop: cogent_form_init
+- rule: Interview unhappy path
+  condition:
+  - active_loop: cogent_form_interview
+  steps:
+  - intent: info_gathering_challenge
+  - action: utter_info_gathering
+  - action: cogent_form_interview
+  - active_loop: cogent_form_interview
+- rule: PF unhappy path
+  condition:
+  - active_loop: cogent_form_pf
+  steps:
+  - intent: info_gathering_challenge
+  - action: utter_info_gathering
+  - action: cogent_form_pf
+  - active_loop: cogent_form_pf
+- rule: ESIC unhappy path
+  condition:
+  - active_loop: cogent_form_esic
+  steps:
+  - intent: info_gathering_challenge
+  - action: utter_info_gathering
+  - action: cogent_form_esic
+  - active_loop: cogent_form_esic
+- rule: sales unhappy path
+  condition:
+  - active_loop: cogent_form_sales
+  steps:
+  - intent: info_gathering_challenge
+  - action: utter_info_gathering
+  - action: cogent_form_sales
+  - active_loop: cogent_form_sales
+- rule: contact cogent
+  steps:
+  - intent: contact_cogent
+  - action: utter_contact_cogent
+- rule: fallback
+  steps:
+  - action: action_default_fallback
+  - action: utter_out_of_scope
+- rule: OTP unhappy
+  condition:
+  - active_loop: cogent_form_otp
+  steps:
+  - intent: otp_not_received
+  - action: sendingOTP
+  - action: cogent_form_otp
+  - active_loop: cogent_form_otp
